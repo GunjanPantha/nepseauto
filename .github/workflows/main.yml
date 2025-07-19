@@ -23,4 +23,4 @@ jobs:
       run: pip install requests
 
     - name: Run NEPSE checker
-      run: python check_nepse.py
+      run: python ltp_checker.py

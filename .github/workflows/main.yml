@@ -24,8 +24,10 @@ jobs:
         pip install requests playwright
         playwright install firefox
 
-    - name: Run in xvfb (headless browser support)
+    - name: Install browser dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y xvfb libgtk-3-0 libdbus-glib-1-2 libnss3 libasound2
-        xvfb-run -a python ltp_checker.py
+        sudo apt-get install -y xvfb libgtk-3-0 libdbus-glib-1-2 libnss3 libasound2t64
+
+    - name: Run script in virtual display
+      run: xvfb-run -a python ltp_checker.py

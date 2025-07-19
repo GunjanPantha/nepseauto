@@ -2,7 +2,9 @@ name: NEPSE LTP Checker
 
 on:
   schedule:
-    - cron: '45 9 * * 0-4'  # Sunday to Thursday, 09:45 UTC == 15:30 NPT
+    # Runs Sunday - Thursday at 3:30 PM Nepal Time (UTC+5:45)
+    # 3:30 PM NPT = 09:45 AM UTC
+    - cron: '45 9 * * 0-4'
   workflow_dispatch:
 
 jobs:
@@ -19,10 +21,12 @@ jobs:
         python-version: '3.x'
 
     - name: Install system dependencies for Playwright
-      run: sudo apt-get update && sudo apt-get install -y \
-        libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
-        libgbm1 libgtk-3-0 libnspr4 libnss3 libxcomposite1 \
-        libxdamage1 libxrandr2 xdg-utils libxss1 libasound2
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
+          libgbm1 libgtk-3-0 libnspr4 libnss3 libxcomposite1 \
+          libxdamage1 libxrandr2 xdg-utils libxss1 libasound2
 
     - name: Install Python dependencies
       run: |

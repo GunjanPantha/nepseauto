@@ -25,7 +25,7 @@ def fetch_ltp():
         print(f"Attempt {attempt}/{MAX_RETRIES} to fetch LTP data...")
         try:
             with sync_playwright() as p:
-                browser = p.chromium.launch(headless=True)
+                browser = p.firefox.launch(headless=True) # Keep headless=True for production
                 context = browser.new_context(ignore_https_errors=True) 
                 page = context.new_page() 
                 

@@ -2,7 +2,7 @@ name: Schedule LTP Checker
 
 on:
   schedule:
-    - cron: '45 9 * * 0-4'  # 3:30 PM GMT+5:45
+    - cron: '45 9 * * 0-4'  # 3:30 PM GMT+5:45 (Nepal time)
   workflow_dispatch:
 
 jobs:
@@ -18,11 +18,22 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install dependencies
+    - name: Install system dependencies for Firefox + xvfb
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          xvfb libgtk-3-0 libdbus-glib-1-2 libnss3 libasound2t64 \
+          libxss1 libxrandr2 libgbm-dev libxcomposite1 libxdamage1 libxfixes3 libxext6 \
+          libx11-xcb1 libxcb1
+
+    - name: Install Python dependencies and Playwright
       run: |
         pip install --upgrade pip
         pip install requests playwright
-        playwright install chromium
+        playwright install firefox
 
-    - name: Run script
-      run: python ltp_checker.py
+    - name: Run LTP Checker script with xvfb
+      env:
+        DEBUG: pw:browser*  # optional: enables Playwright browser debug logs
+      run: |
+        xvfb-run -a python ltp_checker.py

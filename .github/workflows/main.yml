@@ -1,39 +1,31 @@
-name: Schedule LTP Checker
+name: Nepse LTP Checker
 
 on:
   schedule:
-    - cron: '45 9 * * 0-4'  # Runs Sun–Thu at 3:30 PM Nepal time (UTC+5:45)
-  workflow_dispatch:
+    # Schedule to run Sunday to Thursday at 3:30 PM GMT+5:45 (which is 09:45 UTC)
+    # The cron expression is in UTC.
+    # 3:30 PM GMT+5:45 is 09:45 AM UTC.
+    # Days of the week: 0 (Sunday) to 4 (Thursday)
+    - cron: '45 9 * * 0-4'
 
 jobs:
-  run-checker:
+  run-ltp-checker:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
-
-    - name: Install system dependencies for Firefox and headless mode
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          xvfb libgtk-3-0 libdbus-glib-1-2 libnss3 libasound2t64 \
-          libxss1 libxrandr2 libgbm-dev libxcomposite1 libxdamage1 libxfixes3 \
-          libxext6 libx11-xcb1 libxcb1
+        python-version: '3.x' # Use a recent Python version
 
     - name: Install Python dependencies
       run: |
-        pip install --upgrade pip
-        pip install -r requirements.txt
-        playwright install firefox  # needed even if playwright is in requirements
+        python -m pip install --upgrade pip
+        pip install playwright requests
+        playwright install firefox # Install Firefox browser for Playwright
 
-    - name: Run LTP Checker script using xvfb
-      env:
-        DEBUG: pw:browser*  # optional: logs Playwright browser activity
-      run: |
-        xvfb-run -a python ltp_checker.py
+    - name: Run LTP Checker script
+      run: python ltp_checker.py

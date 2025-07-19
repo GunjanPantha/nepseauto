@@ -22,12 +22,7 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install requests playwright
-        playwright install firefox
+        playwright install chromium
 
-    - name: Install browser dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y xvfb libgtk-3-0 libdbus-glib-1-2 libnss3 libasound2t64
-
-    - name: Run script in virtual display
-      run: xvfb-run -a python ltp_checker.py
+    - name: Run script
+      run: python ltp_checker.py

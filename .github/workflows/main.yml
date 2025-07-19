@@ -1,32 +1,26 @@
-name: Nepse LTP Checker
+name: NEPSE LTP Checker
 
 on:
   schedule:
-    # Schedule to run Sunday to Thursday at 3:30 PM GMT+5:45 (which is 09:45 UTC)
-    # The cron expression is in UTC.
-    # 3:30 PM GMT+5:45 is 09:45 AM UTC.
-    # Days of the week: 0 (Sunday) to 4 (Thursday)
-    - cron: '45 9 * * 0-4'
-  workflow_dispatch: # This line adds the manual trigger option
-
+    # Runs every Sunday to Thursday at 15:30 NPT (GMT+5:45)
+    - cron: '45 9 * * 0-4'  # UTC 9:45 = 15:30 NPT
+  workflow_dispatch:
+  
 jobs:
-  run-ltp-checker:
+  check-nepse:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.x' # Use a recent Python version
+        python-version: '3.x'
 
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install playwright requests
-        playwright install firefox # Install Firefox browser for Playwright
+    - name: Install requests
+      run: pip install requests
 
-    - name: Run LTP Checker script
-      run: python ltp_checker.py
+    - name: Run NEPSE checker
+      run: python check_nepse.py

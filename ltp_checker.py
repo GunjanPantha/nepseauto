@@ -6,7 +6,7 @@ DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1396199636498124953/nAoA
 # Format: "SYMBOL": target_price
 WATCHLIST = {
     "SHIVM": 750,
-    "GLH": 280
+    "GLH": 300
 }
 
 def send_discord_message(content):

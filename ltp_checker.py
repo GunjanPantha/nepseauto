@@ -6,8 +6,8 @@ DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1396199636498124953/nAoA
 # Format: "SYMBOL": {"target": target_price, "stop_loss": stop_loss_price}
 # The stop_loss price should be a value below which you want to be alerted.
 WATCHLIST = {
-    "SHIVM": {"target": 750, "stop_loss": 700},
-    "GLH": {"target": 375, "stop_loss": 350}
+    "SHIVM": {"target": 750, "stop_loss": 200},
+    "GLH": {"target": 375, "stop_loss": 280}
 }
 
 def send_discord_message(content):

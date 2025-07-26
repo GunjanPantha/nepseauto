@@ -5,6 +5,10 @@ on:
     # Runs every Sunday to Thursday at 18:00 NPT (GMT+5:45)
     - cron: '15 12 * * 0-4' # UTC 12:15 = 18:00 NPT
   workflow_dispatch:
+
+env:
+  DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
   
 jobs:
   check-nepse:

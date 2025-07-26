@@ -1,7 +1,8 @@
 import requests
+import os
 
-# Replace this with your actual Discord webhook URL
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1396199636498124953/nAoA79bKy-9Zls5VXw2_Dapy6oGQgn0SLesqkec0Gov_6JoSvjVDXVR9c0_-Y9dG3m1W"
+
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 # Format: "SYMBOL": {"target": target_price, "stop_loss": stop_loss_price}
 # The stop_loss price should be a value below which you want to be alerted.

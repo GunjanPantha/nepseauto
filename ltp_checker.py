@@ -1,5 +1,5 @@
-import requests
 import os
+import requests
 
 
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
@@ -18,6 +18,11 @@ def send_discord_message(content):
     Args:
         content (str): The message content to send.
     """
+    if not DISCORD_WEBHOOK_URL:
+        # Log an error if the webhook URL isn't set, crucial for debugging in Actions.
+        print("Error: DISCORD_WEBHOOK_URL environment variable is not set. Cannot send Discord message.")
+        return
+
     try:
         requests.post(DISCORD_WEBHOOK_URL, json={"content": content})
     except requests.exceptions.RequestException as e:
@@ -28,6 +33,11 @@ def main():
     Fetches the latest traded price (LTP) for symbols in the WATCHLIST,
     checks against target and stop-loss prices, and sends Discord notifications.
     """
+    if not DISCORD_WEBHOOK_URL:
+        # Exit early if the webhook is not configured, to prevent further errors.
+        print("Script cannot run: DISCORD_WEBHOOK_URL is not configured. Check GitHub Secrets.")
+        return
+
     for symbol, prices in WATCHLIST.items():
         target = prices.get("target")
         stop_loss = prices.get("stop_loss")
